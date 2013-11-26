@@ -2,8 +2,8 @@ var fs = require('fs');
 var server = require('http').createServer();
 var io = require('socket.io').listen(server);
 
-server.listen(8080, function () {
-  console.log('8080 Listening');
+server.listen(8081, function () {
+  console.log('8081 Listening');
 });
 
 server.on('request', function (req, res) {
