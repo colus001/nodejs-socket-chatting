@@ -41,16 +41,18 @@ io.sockets.on('connection', function (socket) {
         throw err;
       }
 
+      var error_message;
+
       // 들어와있는 방이 없을 경우
       if (room === null) {
-        var error_message = '방에 입장해야해요';
+        error_message = '방에 입장해야해요';
         io.sockets.sockets[socket.id].emit('error', error_message);
         return;
       }
 
       // 대화명이 없을 경우
       if (name === undefined) {
-        var error_message = '대화명이 없어요';
+        error_message = '대화명이 없어요';
         io.sockets.sockets[socket.id].emit('error', error_message);
         return;
       }

@@ -14,8 +14,8 @@
   <script type="text/javascript">
     $(document).ready(function(){
       var socket = io.connect();
-
       var user_name = prompt('유저 이름을 입력하세요');
+
       socket.emit('setname', user_name);
 
       socket.on('error', function (message) {
@@ -44,25 +44,25 @@
 
         // socket.emit('join', room_name);
         var buttonToAppend = $('<button type="button" class="btn btn-default btn-block left-align active" id="channel">'+room_name+'</button>');
-        buttonToAppend.click(function () {
-          // var rooms = $('#room_list button');
-          var room_name = $(this).text();
-          rooms.each(function() {
-            $(this).removeClass('active');
-            if ( $(this).text() === room_name || room_name === '' ) does_same_name_already_exist = true;
-          });
-          $(this).addClass('active');
-          var room_name = $(this).text();
-          $('#currentRoom').text('현재:' + room_name);
-          socket.emit('join', room_name);
-          socket.emit('setname', user_name);
-          $('#chat_messages').html('');
-        });
+        // buttonToAppend.click(function () {
+        //   // var rooms = $('#room_list button');
+        //   var room_name = $(this).text();
+        //   rooms.each(function() {
+        //     $(this).removeClass('active');
+        //     if ( $(this).text() === room_name || room_name === '' ) does_same_name_already_exist = true;
+        //   });
+        //   $(this).addClass('active');
+        //   var room_name = $(this).text();
+        //   $('#currentRoom').text('현재:' + room_name);
+        //   socket.emit('join', room_name);
+        //   socket.emit('setname', user_name);
+        //   $('#chat_messages').html('');
+        // });
 
         $('#room_list').append(buttonToAppend);
       });
 
-      $('#roomButton').click(function () {
+      $(document).on('click', '#roomButton', function () {
         var room_name = $('#room_name').val();
         var rooms = $('#room_list button');
         rooms.each(function() {
@@ -73,27 +73,23 @@
         socket.emit('setname', user_name);
       });
 
-      $('#room_list button').each(function () {
+      $(document).on('click', '.channel_button', function () {
 
-        $(this).click(function () {
+        var rooms = $('#room_list button');
+        var room_name = $(this).text();
 
-          var rooms = $('#room_list button');
-          var room_name = $(this).text();
-
-          rooms.each(function() {
-            $(this).removeClass('active');
-            if ( $(this).text() === room_name || room_name === '' ) {
-              does_same_name_already_exist = true;
-            }
-          });
-
-          $(this).addClass('active');
-          $('#currentRoom').text('현재:' + room_name);
-          socket.emit('join', room_name);
-          socket.emit('setname', user_name);
-          $('#chat_messages').html('');
+        rooms.each(function() {
+          $(this).removeClass('active');
+          if ( $(this).text() === room_name || room_name === '' ) {
+            does_same_name_already_exist = true;
+          }
         });
 
+        $(this).addClass('active');
+        $('#currentRoom').text('현재:' + room_name);
+        socket.emit('join', room_name);
+        socket.emit('setname', user_name);
+        $('#chat_messages').html('');
       });
 
       $('#messageButton').click(function() {
@@ -131,8 +127,8 @@
 	<div class="row clearfix">
 		<div class="col-md-4 column" id="room_list">
       <button id="currentRoom" class="btn btn-link btn-block">현재: 대기실</button>
-		  <button type="button" class="btn btn-default btn-block left-align" id="channel">NODAC</button>
-      <button type="button" class="btn btn-default btn-block left-align" id="channel">DEGUL</button>
+		  <button type="button" class="btn btn-default btn-block left-align channel_button" id="channel">NODAC</button>
+      <button type="button" class="btn btn-default btn-block left-align channel_button" id="channel">DEGUL</button>
 		</div>
 		<div class="col-md-8 column">
       <div class="chat">
